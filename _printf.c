@@ -9,7 +9,7 @@
 
 int _printf(const char *format, ...)
 {
-	int i = 0, digit, num;
+	int i = 0;
 	char ch;
 	const char *str;
 	va_list args;
