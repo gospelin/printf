@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdarg.h>
+#include "main.h"
 
 /**
   * _printf - to print specifiers
