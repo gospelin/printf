@@ -1,8 +1,9 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
+
 #include <stdarg.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 /**
  * struct print - struct for printer functions
@@ -20,8 +21,8 @@ typedef struct print
 
 int _printf(const char *format, ...);
 int print_prg(va_list __attribute__((unused)), char *, unsigned int);
-int print_char(va_list arguments, char *buf, unsigned int ibuf);
-int print_string(va_list arguments, char *buf, unsigned int ibuf);
+int print_chr(va_list arguments, char *buf, unsigned int ibuf);
+int print_str(va_list arguments, char *buf, unsigned int ibuf);
 int print_int(va_list arguments, char *buf, unsigned int ibuf);
 int print_bnr(va_list arguments, char *buf, unsigned int ibuf);
 int print_unt(va_list arguments, char *buf, unsigned int ibuf);
@@ -57,4 +58,4 @@ char *fill_long_oct_array(char *bnr, char *oct);
 char *fill_short_oct_array(char *bnr, char *oct);
 char *fill_hex_array(char *bnr, char *hex, int isupp, int limit);
 
-#endif /* _MAIN_H_ */
+#endif
