@@ -8,6 +8,7 @@
   *Return: void
   */
 
+
 void check_specifier(const char *format, va_list args)
 {
 	int i = 0;
