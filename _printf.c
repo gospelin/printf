@@ -2,21 +2,19 @@
 #include "main.h"
 
 /**
-  * _printf - to print specifiers
-  *@format: specifier to be printed
-  *Return: format
+  * check_specifier - to check specifiers
+  *@format: specifier to be checked
+  *@args: variadic args
+  *Return: void
   */
 
-int _printf(const char *format, ...)
+void check_specifier(const char *format, va_list args)
 {
 	int i = 0;
 	char ch;
 	const char *str;
-	va_list args;
 
-	va_start(args, format);
-
-	while (format[i] && format[i] != '\0')
+	while (*format)
 	{
 		if (i == 0)
 		{
@@ -45,5 +43,20 @@ int _printf(const char *format, ...)
 		}
 		format++;
 	}
+}
+
+/**
+  * _printf - to print
+  * @format: specifier(s) to be printed
+  * Return: format
+  */
+
+int _printf(const char *format, ...)
+{
+	va_list args;
+
+	va_start(args, format);
+	check_specifier(format, args);
+
 	va_end(args);
 }
