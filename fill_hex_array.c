@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * fill_hex_array - writes the character c to stdout
  *
@@ -9,6 +10,7 @@
  * @limit: size of hex
  * Return: binary array.
  */
+
 char *fill_hex_array(char *bnr, char *hex, int isupp, int limit)
 {
 	int op, i, j, toletter;
