@@ -1,86 +1,93 @@
 #include "main.h"
-#include <stdlib.h>
-#include <stdarg.h>
 
+#include "holberton.h"
 /**
- * check_specifiers - checks if there is a valid format specifier
- * @format: possible format specifier
- *
- * Return: pointer or NULL
+ * buffer - defines a local buffer of 1024 chars
+ * @s: buffer
+ * @x: char to be printed
+ * @index: actual position on buffer
+ * Return: return a function
  */
-
-static int (*check_specifiers(const char *format))(va_list)
+void buffer(char *s, char x, int *index)
 {
-	unsigned int i;
-	print_t p[] = {
-		{'c', print_c},
-		{'s', print_s},
-		{'i', print_i},
-		{'d', print_d},
-		{'u', print_u},
-		{'b', print_b},
-		{'o', print_o},
-		{'x', print_x},
-		{'X', print_X},
-		{'p', print_p},
-		{'S', print_S},
-		{'r', print_r},
-		{'R', print_R},
-		{NULL, NULL}
-	};
-
-	for (i = 0; p[i].t != NULL; i++)
+	s[*index] = x;
+	*index = *index + 1;
+	if (*index == 1024)
 	{
-		if (*(p[i].t) == *format)
-			break;
+		write(1, s, *index);
+		*index = 0;
 	}
-	return (p[i].f);
 }
-
 /**
- * _printf - prints anything
- * @format: list of argument types
- *
- * Return: characters printed
+ * getfunction - gets the function choose
+ * @c: char to find
+ * Return: return a function
  */
-
+int (*getfunction(char c))(va_list a, char *s, int *index)
+{
+	int c1;
+	choose l[] = {
+		{'c', print_c}, {'s', print_s}, {'%', print_por}, {'i', print_id},
+		{'d', print_id}, {'b', print_bin}, {'u', print_u}, {'o', print_o},
+		{'x', print_x}, {'X', print_X}, {'S', print_S}, {'R', print_R},
+		{'r', print_r}, {'p', print_p}, {'\0', NULL}
+	};
+	for (c1 = 0; l[c1].c != '\0'; c1++)
+	{
+		if (c == l[c1].c)
+		{
+			return (l[c1].p);
+		}
+	}
+	return (NULL);
+}
+/**
+ * _printf - prints depends of the arguments.
+ * @format: s for string, c for char, d for decimals, i for integers,
+ * b for cast to binary, u for cast to unsigned decimal, o for print
+ * in octal, x for lowercase Hexadecimal, X for Uppercase Hexadecimal,
+ * p to print adresses
+ * Return: new string.
+ */
 int _printf(const char *format, ...)
 {
-	unsigned int i = 0, count = 0;
-	va_list valist;
-	int (*f)(va_list);
+	int c1 = 0, w = 0, x = -1, (*f)(va_list, char *s, int *m);
+	int *index;
+	char *s;
+	va_list elements;
 
-	if (format == NULL)
+	va_start(elements, format);
+	s = malloc(1024);
+	index = &w;
+	if (!s)
 		return (-1);
-	va_start(valist, format);
-	while (format[i])
+	if (format)
 	{
-		for (; format[i] != '%' && format[i]; i++)
+		x = 0;
+		for (; format[c1] != '\0'; c1++, x++)
 		{
-			_putchar(format[i]);
-			count++;
+			if (format[c1] != '%')
+				buffer(s, format[c1], index);
+			else if (format[c1] == '%' && format[c1 + 1] == '\0')
+			{
+				return (-1);
+			}
+			else if (format[c1] == '%' && format[c1 + 1] != '\0')
+			{
+				f = getfunction(format[c1 + 1]);
+				if (f)
+				{
+					x = (x + f(elements, s, index)) - 1;
+					c1++;
+				}
+				else
+					buffer(s, format[c1], index);
+			}
 		}
-		if (!format[i])
-			return (count);
-
-		f = check_specifiers(&format[i + 1]);
-
-		if (f != NULL)
-		{
-			count += f(valist);
-			i += 2;
-			continue;
-		}
-		if (!format[i + 1])
-			return (-1);
-		_putchar(format[i]);
-		count++;
-		if (format[i + 1] == '%')
-			i += 2;
-		else
-			i++;
 	}
-	va_end(valist);
-
-	return (count);
+	if (*index != 1024)
+		write(1, s, *index);
+	free(s);
+	va_end(elements);
+	return (x);
 }
