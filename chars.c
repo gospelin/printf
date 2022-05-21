@@ -53,19 +53,6 @@ int print_por(va_list a, char *s, int *index)
 	return (1);
 }
 /**
- * print_por - print character %
- * @a: element of va_list type
- * @s: buffer
- * @index: position on buffer
- * Return: number of "characters" of element called
- */
-int print_por(va_list a, char *s, int *index)
-{
-	(void)a;
-	buffer(s, '%', index);
-	return (1);
-}
-/**
  * print_id - print numbers in base 10 (integers)
  * @a: element of va_list type
  * @s: buffer
