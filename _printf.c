@@ -1,62 +1,87 @@
-#include <stdarg.h>
 #include "main.h"
+#include <stdlib.h>
 
 /**
-  * check_specifier - to check specifiers
-  *@format: specifier to be checked
-  *@args: variadic args
-  *Return: void
-  */
+ * check_specifiers - checks if there is a valid format specifier
+ * @format: possible format specifier
+ *
+ * Return: pointer or NULL
+ */
 
-void check_specifier(const char *format, va_list args)
+static int (*check_specifiers(const char *format))(va_list)
 {
-	int i = 0;
-	char ch;
-	const char *str;
+	unsigned int i;
+	print_t p[] = {
+		{"c", print_c},
+		{"s", print_s},
+		{"i", print_i},
+		{"d", print_d},
+		{"u", print_u},
+		{"b", print_b},
+		{"o", print_o},
+		{"x", print_x},
+		{"X", print_X},
+		{"p", print_p},
+		{"S", print_S},
+		{"r", print_r},
+		{"R", print_R},
+		{'\0', '\0'}
+	};
 
-	while (*format)
+	i = 0;
+
+	while (p[i].t != '\0')
 	{
-		if (i == 0)
+		if (*(p[i].t) == *format)
 		{
-			if (*format == '%')
-				i = 1;
-			else
-				_putchar(format[i]);
+			break;
 		}
-		else if (i == 1)
-		{
-			switch (*format)
-			{
-			case 'c':
-				ch = va_arg(args, int);
-
-				_putchar(ch);
-				break;
-			case 's':
-				str = va_arg(args, const char *);
-
-				while (*str)
-					_putchar(*str++);
-				break;
-			}
-			i = 0;
-		}
-		format++;
+		i++;
 	}
+	return (p[i].f);
 }
 
 /**
-  * _printf - to print
-  * @format: specifier(s) to be printed
-  * Return: format
-  */
+ * _printf - prints anything
+ * @format: list of argument types
+ *
+ * Return: characters printed
+ */
 
 int _printf(const char *format, ...)
 {
-	va_list args;
+	unsigned int i = 0, count = 0;
+	va_list valist;
+	int (*f)(va_list);
 
-	va_start(args, format);
-	check_specifier(format, args);
-
-	va_end(args);
+	if (format == NULL)
+		return (-1);
+	va_start(valist, format);
+	while (format[i])
+	{
+		for (; format[i] != '%' && format[i]; i++)
+		{
+			_putchar(format[i]);
+			count++;
+		}
+		if (!format[i])
+			return (count);
+		f = check_for_specifiers(&format[i + 1]);
+		if (f != '\0')
+		{
+			count += f(valist);
+			i += 2;
+			continue;
+		}
+		if (!format[i + 1])
+			return (-1);
+		_putchar(format[i]);
+		count++;
+		if (format[i + 1] == '%')
+			i += 2;
+		else
+			i++;
+	}
+	va_end(valist);
+	return (count);
 }
