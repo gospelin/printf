@@ -4,24 +4,34 @@
 /**
   * print_c - prints a char
   * @c: character to be prunted
+  *
+  * Return: 1
   */
 
-void print_c(va_list c)
+int print_c(va_list c)
 {
 	char ch = va_arg(c, int);
 
 	_putchar(ch);
+	return (1);
 }
 
 /**
  * print_s - prints a string
  * @s: string to print
+ * Return: chars printed
  */
 
-void print_s(va_list s)
+int print_s(va_list s)
 {
-	const char *str = va_arg(s, const char *);
+	int count;
+	char *str = va_arg(s, char *);
 
-	while (*str)
-		putchar(*str++);
+	if (str == NULL)
+		str = "(null)";
+	for (count = 0; str[count]; count++)
+	{
+		_putchar(str[count]);
+	}
+	return (count);
 }
