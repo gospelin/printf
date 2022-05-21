@@ -1,37 +1,54 @@
 #include "main.h"
-#include <stdlib.h>
 
 /**
-  * print_c - prints a char
-  * @c: character to be prunted
-  *
-  * Return: 1
-  */
-
-int print_c(va_list c)
+  * print_c - print characters
+  * @a: element of va_list type
+  * @s: buffer
+  * @index: position on buffer
+  * Return: number of "characters" of element called
+ */
+int print_c(va_list a, char *s, int *index)
 {
-	char ch = (char)va_arg(c, int);
+	int x;
 
-	_putchar(ch);
+	x = va_arg(a, int);
+	buffer(s, x, index);
 	return (1);
 }
-
 /**
- * print_s - prints a string
- * @s: string to print
- * Return: chars printed
+ * print_s - print strings
+ * @a: element of va_list type
+ * @s: buffer
+ * @index: position on buffer
+ * Return: number of "characters" of element called
  */
-
-int print_s(va_list s)
+int print_s(va_list a, char *s, int *index)
 {
-	int count;
-	char *str = va_arg(s, char *);
+	char *x;
+	int y = 0;
+	int c = 0;
 
-	if (str == NULL)
-		str = "(null)";
-	for (count = 0; str[count]; count++)
+	x = va_arg(a, char *);
+	if (!x)
+		x = "(null)";
+	while (x[c])
 	{
-		_putchar(str[count]);
+		buffer(s, x[c], index);
+		c++;
+		y++;
 	}
-	return (count);
+	return (y);
+}
+/**
+ * print_por - print character %
+ * @a: element of va_list type
+ * @s: buffer
+ * @index: position on buffer
+ * Return: number of "characters" of element called
+ */
+int print_por(va_list a, char *s, int *index)
+{
+	(void)a;
+	buffer(s, '%', index);
+	return (1);
 }
