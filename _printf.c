@@ -1,6 +1,5 @@
 #include "main.h"
 
-#include "holberton.h"
 /**
  * buffer - defines a local buffer of 1024 chars
  * @s: buffer
