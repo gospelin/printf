@@ -10,20 +10,16 @@
   * @f: function
   */
 
-typedef struct print
+typedef struct a
 {
-	char *t;
-	int (*f)(va_list);
-} print_t;
+	char c;
+	int (*p)(va_list list, char *s, int *index);
+} choose;
 
 int _putchar(char c);
 int _printf(const char *format, ...);
-static int (*check_specifiers(const char *format))(va_list);
-int print_c(va_list c);
-int print_s(va_list s);
-int print_i(va_list i);
-int print_d(va_list d);
-int print_b(va_list b)
-
+void buffer(char *s, char x, int *index);
+int print_c(va_list a, char *s, int *index);
+int print_s(va_list a, char *s, int *index);
 
 #endif /* _MAIN_H_ */
