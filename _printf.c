@@ -11,7 +11,7 @@
 static int (*check_specifiers(const char *format))(va_list)
 {
 	unsigned int i;
-	print_f p[] = {
+	print_t p[] = {
 		{"c", print_c},
 		{"s", print_s},
 		{"i", print_i},
@@ -28,15 +28,12 @@ static int (*check_specifiers(const char *format))(va_list)
 		{NULL, NULL}
 	};
 
-	i = 0;
-
-	while (p[i].t != NULL)
+	for (i = 0; p[i].t != NULL; i++)
 	{
 		if (*(p[i].t) == *format)
 		{
 			break;
 		}
-		i++;
 	}
 	return (p[i].f);
 }
