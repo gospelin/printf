@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+#include <stdarg.h>
 
 /**
  * check_specifiers - checks if there is a valid format specifier
@@ -31,9 +32,7 @@ static int (*check_specifiers(const char *format))(va_list)
 	for (i = 0; p[i].t != NULL; i++)
 	{
 		if (*(p[i].t) == *format)
-		{
 			break;
-		}
 	}
 	return (p[i].f);
 }
@@ -63,7 +62,9 @@ int _printf(const char *format, ...)
 		}
 		if (!format[i])
 			return (count);
+	
 		f = check_specifiers(&format[i + 1]);
+
 		if (f != NULL)
 		{
 			count += f(valist);
