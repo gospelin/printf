@@ -25,12 +25,12 @@ static int (*check_specifiers(const char *format))(va_list)
 		{"S", print_S},
 		{"r", print_r},
 		{"R", print_R},
-		{'\0', '\0'}
+		{NULL, NULL}
 	};
 
 	i = 0;
 
-	while (p[i].t != '\0')
+	while (p[i].t != NULL)
 	{
 		if (*(p[i].t) == *format)
 		{
@@ -67,7 +67,7 @@ int _printf(const char *format, ...)
 		if (!format[i])
 			return (count);
 		f = check_for_specifiers(&format[i + 1]);
-		if (f != '\0')
+		if (f != NULL)
 		{
 			count += f(valist);
 			i += 2;
