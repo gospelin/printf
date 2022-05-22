@@ -1,92 +1,51 @@
 #include "main.h"
 
 /**
- * buffer - defines a local buffer of 1024 chars
- * @s: buffer
- * @x: char to be printed
- * @index: actual position on buffer
- * Return: return a function
- */
-void buffer(char *s, char x, int *index)
-{
-	s[*index] = x;
-	*index = *index + 1;
-	if (*index == 1024)
-	{
-		write(1, s, *index);
-		*index = 0;
-	}
-}
-/**
- * getfunction - gets the function choose
- * @c: char to find
- * Return: return a function
- */
-int (*getfunction(char c))(va_list a, char *s, int *index)
-{
-	int c1;
-	choose l[] = {
-		{'c', print_c}, {'s', print_s}, {'%', print_por}, {'i', print_id},
-		{'d', print_id}, {'b', print_bin}, {'u', print_u}, {'o', print_o},
-		{'x', print_x}, {'X', print_X}, {'S', print_S}, {'R', print_R},
-		{'r', print_r}, {'p', print_p}, {'\0', NULL}
-	};
-	for (c1 = 0; l[c1].c != '\0'; c1++)
-	{
-		if (c == l[c1].c)
-		{
-			return (l[c1].p);
-		}
-	}
-	return (NULL);
-}
-/**
- * _printf - prints depends of the arguments.
- * @format: s for string, c for char, d for decimals, i for integers,
- * b for cast to binary, u for cast to unsigned decimal, o for print
- * in octal, x for lowercase Hexadecimal, X for Uppercase Hexadecimal,
- * p to print adresses
- * Return: new string.
+ * _printf - formatted output conversion and print data.
+ * @format: input string.
+ *
+ * Return: number of chars printed.
  */
 int _printf(const char *format, ...)
 {
-	int c1 = 0, w = 0, x = -1, (*f)(va_list, char *s, int *m);
-	int *index;
-	char *s;
-	va_list elements;
+	unsigned int i = 0, len = 0, ibuf = 0;
+	va_list arguments;
+	int (*function)(va_list, char *, unsigned int);
+	char *buffer;
 
-	va_start(elements, format);
-	s = malloc(1024);
-	index = &w;
-	if (!s)
+	va_start(arguments, format), buffer = malloc(sizeof(char) * 1024);
+	if (!format || !buffer || (format[i] == '%' && !format[i + 1]))
 		return (-1);
-	if (format)
+	if (!format[i])
+		return (0);
+	for (i = 0; format && format[i]; i++)
 	{
-		x = 0;
-		for (; format[c1] != '\0'; c1++, x++)
+		if (format[i] == '%')
 		{
-			if (format[c1] != '%')
-				buffer(s, format[c1], index);
-			else if (format[c1] == '%' && format[c1 + 1] == '\0')
-			{
+			if (format[i + 1] == '\0')
+			{	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
 				return (-1);
 			}
-			else if (format[c1] == '%' && format[c1 + 1] != '\0')
-			{
-				f = getfunction(format[c1 + 1]);
-				if (f)
+			else
+			{	function = get_print_func(format, i + 1);
+				if (function == NULL)
 				{
-					x = (x + f(elements, s, index)) - 1;
-					c1++;
+					if (format[i + 1] == ' ' && !format[i + 2])
+						return (-1);
+					handl_buf(buffer, format[i], ibuf), len++, i--;
 				}
 				else
-					buffer(s, format[c1], index);
-			}
+				{
+					len += function(arguments, buffer, ibuf);
+					i += ev_print_func(format, i + 1);
+				}
+			} i++;
 		}
+		else
+			handl_buf(buffer, format[i], ibuf), len++;
+		for (ibuf = len; ibuf > 1024; ibuf -= 1024)
+			;
 	}
-	if (*index != 1024)
-		write(1, s, *index);
-	free(s);
-	va_end(elements);
-	return (x);
+	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
+	return (len);
 }
