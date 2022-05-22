@@ -1,7 +1,6 @@
-![](https://www.holbertonschool.com/holberton-logo.png)
 
 ## printf()
-The printf project is a collaboration between Diego López and Luis Chaparro, actual students of Software Engineering at Holberton School, were a function named "_printf" imitates the actual "printf" command located in the stdio.h library. It contains some of the basic features and functions found in the manual 3 of "printf".
+The printf project is a collaboration between Gospel Isaac and Abdulqudus Bamigboye, ALX Software Engineering Students, were a function named "_printf" imitates the actual "printf" command located in the stdio.h library. It contains some of the basic features and functions found in the manual 3 of "printf".
 
 _printf() is a function that performs formatted output conversion and print data. Its prototype is the following:
 
@@ -47,12 +46,12 @@ If the program runs successfully, the **return value** is the amount of chars pr
 ## Examples
 
 1. Printing the string of chars "Hello, Holberton":
-	+ Use: `_printf("Hello Hol%s.", "berton");`
-	+ Output: `Hello Holberton.`
+	+ Use: `_printf("Hello %s.", "World");`
+	+ Output: `Hello World.`
 	
 2. Printing an integer number:
-	+ Use: `_printf("10 + 10 is equal to %d.", 20);`
-	+ Output: `10 + 10 is equal to 20.`
+	+ Use: `_printf("20 + 10 is equal to %d.", 30);`
+	+ Output: `20 + 10 is equal to 30.`
 	
 3. Printing a binary, octal and hexadecimal:
 	+ Use: `_printf("10 in binary is [%b], in octal is [%o] and in hexadecimal is [%x]", 5, 5, 5);`
@@ -324,7 +323,7 @@ Function That Returns The Amount Of Indetifiers.
 ------------
 
 ### Authors
-Diego Lopez and Luis Chaparro.
+Gospel Isaac and Abdulqudus Bamigboye.
 
 ------------
 
