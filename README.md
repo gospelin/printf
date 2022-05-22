@@ -323,7 +323,7 @@ Function That Returns The Amount Of Indetifiers.
 ------------
 
 ### Authors
-Gospel Isaac and Abdulqudus Bamigboye.
+**Gospel Isaac and Abdulqudus Bamigboye.**
 
 ------------
 
